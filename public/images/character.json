@@ -1,0 +1,92 @@
+{
+  "animations": {
+    "character": [
+      "rock-white.png",
+      "paper-white.png",
+      "scissor-white.png"
+    ]
+  },
+  "frames": {
+    "paper-white.png": {
+      "anchor": {
+        "x": 16,
+        "y": 16
+      },
+      "frame": {
+        "h": 32,
+        "w": 32,
+        "x": 103,
+        "y": 35
+      },
+      "sourceSize": {
+        "h": 32,
+        "w": 32
+      },
+      "spriteSourceSize": {
+        "h": 32,
+        "w": 32,
+        "x": 0,
+        "y": 0
+      }
+    },
+    "rock-white.png": {
+      "anchor": {
+        "x": 16,
+        "y": 16
+      },
+      "frame": {
+        "h": 32,
+        "w": 32,
+        "x": 103,
+        "y": 1
+      },
+      "sourceSize": {
+        "h": 32,
+        "w": 32
+      },
+      "spriteSourceSize": {
+        "h": 32,
+        "w": 32,
+        "x": 0,
+        "y": 0
+      }
+    },
+    "scissor-white.png": {
+      "anchor": {
+        "x": 0,
+        "y": 0
+      },
+      "borders": {
+        "bottom": 35,
+        "left": 35,
+        "right": 35,
+        "top": 35
+      },
+      "frame": {
+        "h": 100,
+        "w": 100,
+        "x": 1,
+        "y": 1
+      },
+      "sourceSize": {
+        "h": 100,
+        "w": 100
+      },
+      "spriteSourceSize": {
+        "h": 100,
+        "w": 100,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "meta": {
+    "format": "RGBA8888",
+    "image": "sheet.png",
+    "scale": "1",
+    "size": {
+      "h": 102,
+      "w": 136
+    }
+  }
+}
