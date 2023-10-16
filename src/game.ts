@@ -1,3 +1,3 @@
 import {Character} from './character';
 
-export const objects: Character[] = [];
+export const characters: Character[] = [];

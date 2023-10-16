@@ -1,4 +1,4 @@
-import {Sprite} from 'pixi.js';
+import {Graphics, Sprite} from 'pixi.js';
 import {app} from './app';
 import {PAPER_WHITE, ROCK_WHITE, SCISSOR_WHITE} from './assets';
 import {
@@ -7,6 +7,7 @@ import {
   INITIAL_SPREAD_Y,
   SPEED_MOD,
 } from './constants';
+import {characters} from './game';
 
 export enum CType {
   ROCK,
@@ -18,9 +19,14 @@ export class Character {
   type: CType = CType.ROCK;
   sprite?: Sprite;
   target: Character | undefined | null;
+  enemy: Character | undefined | null;
+  graphics: Graphics;
 
   constructor(type: CType) {
     this.type = type;
+    this.graphics = new Graphics();
+    this.graphics.beginFill(0xffffff);
+    this.graphics.lineStyle(1, 0xffffff, 0.5);
   }
 
   private getTexture = () => {
@@ -79,17 +85,6 @@ export class Character {
     }
   };
 
-  getTargetType = () => {
-    switch (this.type) {
-      case CType.ROCK:
-        return CType.PAPER;
-      case CType.PAPER:
-        return CType.SCISSOR;
-      case CType.SCISSOR:
-        return CType.ROCK;
-    }
-  };
-
   moveTowardsTarget = () => {
     if (this.sprite && this.target && this.target?.sprite) {
       const deltaX = this.target.sprite?.x - this.sprite.x;
@@ -111,29 +106,29 @@ export class Character {
   };
 
   getDistanceToCharacter = (toCharacter: Character) => {
-    const deltaX = this.sprite?.x || 0 - (toCharacter.sprite?.x || 0);
-    const deltaY = this.sprite?.y || 0 - (toCharacter.sprite?.y || 0);
+    const deltaX = toCharacter.sprite?.x || 0 - (this.sprite?.x || 0);
+    const deltaY = toCharacter.sprite?.y || 0 - (this.sprite?.y || 0);
 
     return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
   };
 
-  findClosestCharacter(characters: Character[]) {
+  findClosestCharacter(type: CType) {
     if (characters && characters.length === 0) {
       return null;
     }
 
-    let closestCharacter: Character = characters[0];
-    let closestDistance: number = this.getDistanceToCharacter(closestCharacter);
+    let closestCharacter = characters[characters.length - 1];
+    let closestDistance = this.getDistanceToCharacter(closestCharacter);
 
-    if (characters && characters.length > 0) {
-      characters.forEach(character => {
+    characters.forEach(character => {
+      if (character.type === type) {
         const distance = this.getDistanceToCharacter(character);
         if (distance < closestDistance) {
           closestCharacter = character;
           closestDistance = distance;
         }
-      });
-    }
+      }
+    });
 
     return closestCharacter;
   }
