@@ -18,11 +18,9 @@ export class Character {
   type: CType = CType.ROCK;
   sprite?: Sprite;
   target: Character | undefined | null;
-  index: number;
 
-  constructor(type: CType, index: number) {
+  constructor(type: CType) {
     this.type = type;
-    this.index = index;
   }
 
   private getTexture = () => {
@@ -113,8 +111,8 @@ export class Character {
   };
 
   getDistanceToCharacter = (toCharacter: Character) => {
-    const deltaX = toCharacter?.sprite?.x || 0 - (this.sprite?.x || 0);
-    const deltaY = toCharacter?.sprite?.y || 0 - (this.sprite?.y || 0);
+    const deltaX = this.sprite?.x || 0 - (toCharacter.sprite?.x || 0);
+    const deltaY = this.sprite?.y || 0 - (toCharacter.sprite?.y || 0);
 
     return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
   };

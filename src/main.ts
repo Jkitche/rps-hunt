@@ -5,11 +5,12 @@ import {app} from './app';
 import {NUM_CHARACTERS} from './constants';
 import {objects} from './game';
 import {Text} from 'pixi.js';
+import {FrameTimeAnalyzer} from './frame';
 
 for (let i = 0; i < NUM_CHARACTERS * 3; i++) {
   const ctype =
     i % 3 === 0 ? CType.ROCK : i % 3 === 1 ? CType.PAPER : CType.SCISSOR;
-  objects[i] = new Character(ctype, i);
+  objects[i] = new Character(ctype);
 
   objects[i].initSprite();
   objects[i].randomizePosition();
@@ -51,10 +52,9 @@ text.y = 10;
 
 app.stage.addChild(text);
 
-let frame = 0;
-
+const frameTimeAnalyzer = new FrameTimeAnalyzer();
 app.ticker.add(() => {
-  frame++;
+  frameTimeAnalyzer.startFrame();
   const numRocks = objects.filter(object => {
     return object.type === CType.ROCK;
   }).length;
@@ -64,9 +64,10 @@ app.ticker.add(() => {
   const numScissors = objects.filter(object => {
     return object.type === CType.SCISSOR;
   }).length;
-  text.text = `Num Rocks: ${numRocks} | Num Papers: ${numPapers} | Num Scissors: ${numScissors}\nFrame: ${frame}`;
   objects.forEach(object => {
     findClosestFromIterator(object);
     object.moveTowardsTarget();
   });
+  frameTimeAnalyzer.endFrame();
+  text.text = `Num Rocks: ${numRocks} | Num Papers: ${numPapers} | Num Scissors: ${numScissors}\nFrametime: ${frameTimeAnalyzer.getAverageFrameTime()}`;
 });
