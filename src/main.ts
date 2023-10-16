@@ -18,22 +18,29 @@ for (let i = 0; i < NUM_CHARACTERS * 3; i++) {
   app.stage.addChild(objects[i].sprite);
 }
 
-for (let i = 0; i < NUM_CHARACTERS * 3; i++) {
-  const object = objects[i];
-  let closest;
-  switch (object.type) {
-    case CType.ROCK:
-      closest = objects.find(object => object.type === CType.SCISSOR);
-      break;
-    case CType.PAPER:
-      closest = objects.find(object => object.type === CType.ROCK);
-      break;
-    case CType.SCISSOR:
-      closest = objects.find(object => object.type === CType.PAPER);
-      break;
+const findClosestFromIterator = (character: Character) => {
+  if (character.type === CType.ROCK) {
+    const closest = objects.filter(object => {
+      return object.type === CType.SCISSOR;
+    });
+    character.target = character.findClosestCharacter(closest);
   }
-  // @ts-ignore
-  objects[i].target = objects[i].findClosestCharacter(closest);
+  if (character.type === CType.PAPER) {
+    const closest = objects.filter(object => {
+      return object.type === CType.ROCK;
+    });
+    character.target = character.findClosestCharacter(closest);
+  }
+  if (character.type === CType.SCISSOR) {
+    const closest = objects.filter(object => {
+      return object.type === CType.PAPER;
+    });
+    character.target = character.findClosestCharacter(closest);
+  }
+};
+
+for (let i = 0; i < NUM_CHARACTERS * 3; i++) {
+  findClosestFromIterator(objects[i]);
 }
 
 const text = new Text(`Num Rocks: 0 | Num Papers: 0 | Num Scissors: 0`, {
@@ -56,13 +63,14 @@ app.ticker.add(() => {
     return object.type === CType.ROCK;
   }).length;
   const numPapers = objects.filter(object => {
-    return object.type === CType.ROCK;
+    return object.type === CType.PAPER;
   }).length;
   const numScissors = objects.filter(object => {
-    return object.type === CType.ROCK;
+    return object.type === CType.SCISSOR;
   }).length;
   text.text = `Num Rocks: ${numRocks} | Num Papers: ${numPapers} | Num Scissors: ${numScissors}\nFrame: ${frame}`;
   objects.forEach(object => {
+    findClosestFromIterator(object);
     object.moveTowardsTarget();
   });
 });

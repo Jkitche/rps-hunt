@@ -2,6 +2,7 @@ import {Sprite} from 'pixi.js';
 import {app} from './app';
 import {PAPER_WHITE, ROCK_WHITE, SCISSOR_WHITE} from './assets';
 import {CATCH_DISTANCE, SPEED_MOD} from './constants';
+import {objects} from './game';
 
 export enum CType {
   ROCK,
@@ -43,19 +44,16 @@ export class Character {
   };
 
   catchTarget = () => {
-    if (this.sprite && this.target?.type !== this.type) {
-      if (this.target?.sprite) {
-        const {x, y} = this.target.sprite;
-        if (this.target.sprite) {
-          app.stage.removeChild(this.target.sprite);
-          this.target.sprite = Sprite.from(this.getTexture());
-          app.stage.addChild(this.target.sprite);
-          this.target.sprite.x = x;
-          this.target.sprite.y = y;
-          this.target.sprite.width = 25;
-          this.target.sprite.height = 25;
-        }
-      }
+    if (this.sprite && this.target?.sprite) {
+      const {x, y} = this.target.sprite;
+      app.stage.removeChild(this.target.sprite);
+      this.target.sprite = Sprite.from(this.getTexture());
+      app.stage.addChild(this.target.sprite);
+      this.target.sprite.x = x;
+      this.target.sprite.y = y;
+      this.target.sprite.width = 25;
+      this.target.sprite.height = 25;
+      this.target.type = this.type;
     }
   };
 
