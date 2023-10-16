@@ -39,10 +39,6 @@ const findClosestFromIterator = (character: Character) => {
   }
 };
 
-for (let i = 0; i < NUM_CHARACTERS * 3; i++) {
-  findClosestFromIterator(objects[i]);
-}
-
 const text = new Text(`Num Rocks: 0 | Num Papers: 0 | Num Scissors: 0`, {
   fontFamily: 'Arial',
   fontSize: 24,

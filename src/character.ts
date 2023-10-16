@@ -1,8 +1,12 @@
 import {Sprite} from 'pixi.js';
 import {app} from './app';
 import {PAPER_WHITE, ROCK_WHITE, SCISSOR_WHITE} from './assets';
-import {CATCH_DISTANCE, SPEED_MOD} from './constants';
-import {objects} from './game';
+import {
+  CATCH_DISTANCE,
+  INITIAL_SPREAD_X,
+  INITIAL_SPREAD_Y,
+  SPEED_MOD,
+} from './constants';
 
 export enum CType {
   ROCK,
@@ -68,8 +72,8 @@ export class Character {
     const middleX = width / 2;
     const middleY = height / 2;
 
-    const xValue = Math.floor(Math.random() * 500);
-    const yValue = Math.floor(Math.random() * 500);
+    const xValue = Math.floor(Math.random() * INITIAL_SPREAD_X);
+    const yValue = Math.floor(Math.random() * INITIAL_SPREAD_Y);
 
     if (this.sprite) {
       this.sprite.x = middleX + widthMultiplier * xValue;
